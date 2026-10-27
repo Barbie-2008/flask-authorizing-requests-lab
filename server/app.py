@@ -99,13 +99,10 @@ class MemberOnlyArticle(Resource):
         if not session.get('user_id'):
             return {'error': 'You must be logged in to access member-only content'}, 401
 
-        article = Article.query.filter(
-            Article.id == id,
-            Article.is_member_only.is_(True)
-        ).first()
+        article = Article.query.filter(Article.id == id).first()
 
         if article is None:
-            return {'error': 'Member-only article not found'}, 404
+            return {'error': 'Article not found'}, 404
 
         return ArticleSchema().dump(article), 200
 
